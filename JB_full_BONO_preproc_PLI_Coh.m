@@ -17,16 +17,16 @@ clear % clear matlab workspace
 clc % clear matlab command window
 
 % add path to MADE pipeline
-addpath(genpath('C:\Users\benni\Documents\MATLAB\MADE-EEG-preprocessing-pipeline-master'))
+addpath(genpath('YOUR MADE PATH'))
 
-addpath(genpath('C:\Users\benni\Documents\MATLAB\toolboxes\eeglab2026.0.0')); 
+addpath(genpath('YOUR EEGLAB PATH')); 
 eeglab nogui;
 
-addpath('C:\Users\benni\Documents\MATLAB\toolboxes\fieldtrip-20250106');
+addpath('YOUR FIELDTRIP PATH');
 ft_defaults
-addpath('C:\Users\benni\Documents\MATLAB\projects\BONO\scripts');
+addpath('YOUR PATH TO OTHER SCRIPTS DEPENDED ON HERE');
 
-addpath(genpath('C:\Users\benni\Documents\MATLAB\projects\BONO\scripts\lm_tools'));
+addpath(genpath('YOUR LMTOOLS PATH'));
 
 % Do you want to use miniMADE (recommended for low density (<32 channels) systems)
 run_miniMADE = 1; % 0 = NO (run full MADE pipeline),  = YES (run MADE pipeline with minimal preprocessing steps)
@@ -34,13 +34,13 @@ run_miniMADE = 1; % 0 = NO (run full MADE pipeline),  = YES (run MADE pipeline w
 % miniMADE also skips interim saving regardless of user selection
 
 % 1. Enter the path where you would like the intermediate converted .set files to be saved
-set_location = 'C:\Users\benni\Documents\MATLAB\projects\BONO\data\full_sets';
+set_location = '';
 
 % 2. Enter the path of the folder where you want to save the processed data
-output_location = 'C:\Users\benni\Documents\MATLAB\projects\BONO\data\full_wpli';
+output_location = '';
 
 % 3. Enter the path of the channel location file
-%channel_locations = 'C:\Users\benni\Documents\MATLAB\projects\BONO\scripts\eegtools\fieldtrip-20180925\template\layout\EEG1010.lay';
+%channel_locations = '';
 
 % 4. Do your data need correction for anti-aliasing filter and/or task related time offset?
 adjust_time_offset = 0; % 0 = NO (no correction), 1 = YES (correct time offset)
@@ -296,7 +296,7 @@ for subject = 1:numel(ppt_dirs)
         end
 
         % Double check matches SP layout order and reorder if not
-        load('C:\Users\benni\Documents\MATLAB\projects\BONO\scripts\SP_20ch_layout_labels.mat');
+        load('PATH TO SP_20ch_layout_labels.mat');
         Ch_ord_new = zeros(length(SP_20ch_layout_labels), 1);
         for ch_lo = 1:length(SP_20ch_layout_labels)
             match = find(strcmp(SP_20ch_layout_labels{ch_lo}, {EEG.chanlocs.labels}));
