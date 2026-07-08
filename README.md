@@ -1,8 +1,8 @@
 This repository contains the functions I used for preprocessing the BONO EEG data and some other useful scripts.
 
-If anything doesn't work or you have any questions, I'm happy to help, just email me at ucbtj23@ucl.ac.uk.
-
-You might need some custom functions to run these scripts that aren't included here. If you don't already have access to them, feel free to email me.
+The main dependencies you'll need are the MADE pipeline (https://pmc.ncbi.nlm.nih.gov/articles/PMC8478406/), EEGLAB, and FieldTrip.
+You might need some custom functions to run these scripts that aren't included here. If you don't already have access to them, feel free to email me (ucbtj23@ucl.ac.uk).
+Also if anything doesn't work or you have any questions, feel free to get in touch at the same email. Happy to help!
 
 Quick guide to each script (in approximate order of preprocessing steps):
 - JB_summarise_data_inc_events: using the folders of raw and rescued marker files, summarises the overall dataset into a .csv. Used in later scripts for converting files.
