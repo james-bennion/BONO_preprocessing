@@ -11,38 +11,21 @@
 % Created by James Bennion, Birkbeck, Jul 2026
 
 % ************************************************************************
-%% User input: user provide relevant information to be used for data processing
-% Preprocessing of EEG data involves using some common parameters for
-% every subject. This part of the script initializes the common parameters.
 
-clear % clear matlab workspace
-clc % clear matlab command window
-
-% add path to MADE pipeline
-% %addpath(genpath('YOUR MADE PATH'))
-% 
-% addpath(genpath('YOUR EEGLAB PATH')); 
-% eeglab nogui;
-% 
-% addpath('YOUR FIELDTRIP PATH');
-% ft_defaults
-% addpath('YOUR PATH FOR OTHER SCRIPTS REQUIRED HERE');
-% 
-% addpath(genpath('YOUR LMTOOLS PATH'));
-
+%% User input
 % Do you want to use miniMADE (recommended for low density (<32 channels) systems)
 run_miniMADE = 1; % 0 = NO (run full MADE pipeline),  = YES (run MADE pipeline with minimal preprocessing steps)
 % Note: Running miniMADE will skip the FASTER and ICA steps. Epoch level interpolation can still be performed, but is not recommended
 % miniMADE also skips interim saving regardless of user selection
 
 % 1a. Enter the path of the folder that has the converted .set data files to be preprocessed
-set_location = '';
+set_location = 'YOUR SET PATH';
 
 % 2. Enter the path of the folder where you want to save the preprocessed data
-output_location = '';
+output_location = 'YOUR OUTPUT PATH';
 
 %3. Enter the path of the channel location file
-channel_locations = '';
+channel_locations = 'PATH\EEG1010.lay';
 
 %4. Do your data need correction for anti-aliasing filter and/or task related time offset?
 adjust_time_offset = 0; % 0 = NO (no correction), 1 = YES (correct time offset)
@@ -233,7 +216,6 @@ parfor subject = 1:n_subs
     %local copy of broadcast variables that may be reassigned
     baseline_window = [];
     reref = [];
-    overlap_epoch = 0;
 
     subject_folder = ppt_names{subject};
     subject_path   = fullfile(set_location, subject_folder);
@@ -301,7 +283,7 @@ parfor subject = 1:n_subs
         end
 
         % Double check matches SP layout order and reorder if not
-        loaded = load('');
+        loaded = load('YOURPATH\SP_20ch_layout_labels.mat');
         SP_20ch_layout_labels = loaded.SP_20ch_layout_labels;        Ch_ord_new = zeros(length(SP_20ch_layout_labels), 1);
         for ch_lo = 1:length(SP_20ch_layout_labels)
             match = find(strcmp(SP_20ch_layout_labels{ch_lo}, {EEG.chanlocs.labels}));
@@ -447,8 +429,6 @@ parfor subject = 1:n_subs
                     % 3. Does the data have a trial end marker?
                     trial_end_marker = 1; % 0=NO (no trial end marker in data), 1=YES (data have trial end marker)
                     trial_end_marker_name= taskoffset_event_markers; % enter trial end marker name
-                    % 5. Do you want to create overlapping epoch?
-                    overlap_epoch = 0; % 0 = NO (do not create overlapping epoch), 1 = YES (50% overlapping epoch)
 
                     % Insert markers
                     if overlap_epoch==1
@@ -1031,17 +1011,16 @@ function parsave(fpath, EEG)
      save(fpath, 'EEG');
 end
  
-%% Various patches to fix niche issues with my path setup, may be able to remove if you are cleaner!
 function setup_workers()
-    addpath(genpath('YOUR EEGLAB PATH'), '-begin'); 
-    addpath(genpath('YOUR MADE PATH'), '-begin');
-    addpath('YOUR FIELDTRIP PATH', '-begin');
-    addpath('YOUR SCRIPTS PATH', '-begin');
-    addpath('YOUR LMTOOLS PATH');
+    addpath(genpath('YOUREEGLABPATH), '-begin');
+    addpath(genpath('YOURMADEPATH'), '-begin');
+    addpath('YOURFIELDTRIPPATH', '-begin');
+    addpath('YOURSCRIPTSPATH', '-begin');
+    addpath('YOURLMTOOLSPATH');
     
     % Remove Biosig Octave compat folder that shadows MATLAB built-ins
-    rmpath('C:\Users\Documents\MATLAB\toolboxes\eeglab2026.0.0\plugins\Biosig3.8.5\biosig\maybe-missing_disabled');
-    rmpath('C:\Users\Documents\MATLAB\toolboxes\eeglab2026.0.0\plugins\Biosig3.8.5\biosig\maybe-missing_disabled\freemat3.5');
+    rmpath('YOURPATH\MATLAB\toolboxes\eeglab2026.0.0\plugins\Biosig3.8.5\biosig\maybe-missing_disabled');
+    rmpath('YOURPATH\Documents\MATLAB\toolboxes\eeglab2026.0.0\plugins\Biosig3.8.5\biosig\maybe-missing_disabled\freemat3.5');
     
     ft_defaults;
     evalc('eeglab nogui');
