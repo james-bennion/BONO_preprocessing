@@ -443,8 +443,6 @@ for subject = 1:numel(ppt_dirs)
                     % 3. Does the data have a trial end marker?
                     trial_end_marker = 1; % 0=NO (no trial end marker in data), 1=YES (data have trial end marker)
                     trial_end_marker_name= taskoffset_event_markers; % enter trial end marker name
-                    % 5. Do you want to create overlapping epoch?
-                    overlap_epoch = 0; % 0 = NO (do not create overlapping epoch), 1 = YES (50% overlapping epoch)
     
                     % Insert markers
                     if overlap_epoch==1
